@@ -11,7 +11,7 @@ from api.query import *
 login_bp = Blueprint('login', __name__)
 
 
-@login_bp.route('/login', methods=['POST'])
+@login_bp.route('/users/login', methods=['POST'])
 def login_user():
     auth_username = request.form.get('username')
     auth_password = request.form.get('password')
@@ -29,7 +29,7 @@ def login_user():
     return make_response('could not verify', 401, {'Authentication': '"login required"'})
 
 
-@login_bp.route('/register', methods=['POST'])
+@login_bp.route('/users/register', methods=['POST'])
 def signup_user():
     username = request.form.get('username')
     password = request.form.get('password')
