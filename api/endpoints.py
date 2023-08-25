@@ -32,19 +32,23 @@ def refresh_expiring_jwts(response):
 def create_token():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
+    # print(username,":", password)
     if not username or not password:
-        return {"message": "Wrong username or password"}, 401
+        return {"message": "username dan password tidak boleh kosong"}, 401
 
     try:
         row = check_user(username).fetchall()[0]
     except:
-        return {"message": "Wrong username or password"}, 401
+        return {"message": "username atau password salah"}, 401
 
     if check_password_hash(row['password'], password):
         access_token = create_access_token(identity=row['public_id'])
+    else:
+        return {"message": "username atau password salah"}, 401
 
     return {
         "access_token": access_token,
+        "message": "login success",
         "current_user": {
             "id_data": row['id_rs'],
             "rs_name": row['display_name'],
